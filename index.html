@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tebak Daerah — kenali kabupaten & kota dari bentuknya</title>
+    <meta
+      name="description"
+      content="Tebak satu dari 514 kabupaten dan kota di Indonesia dari bentuk wilayahnya. Enam kesempatan, petunjuk jarak dan arah, soal baru tiap hari."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tebak-daerah.vercel.app/" />
+    <meta property="og:title" content="Tebak Daerah" />
+    <meta property="og:description" content="Kenali kabupaten & kota di Indonesia dari bentuknya. Enam kesempatan, soal baru tiap hari." />
+    <meta property="og:image" content="https://tebak-daerah.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://tebak-daerah.vercel.app/" />
+    <meta name="theme-color" content="#f3efe4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111917" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/ikon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="kepala">
+      <a class="merek" href="/" aria-label="Tebak Daerah, beranda">
+        <svg class="lambang" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.5" />
+          <path d="M16 4 L19 16 L16 18.5 L13 16 Z" fill="currentColor" />
+          <path d="M16 28 L19 16 L16 18.5 L13 16 Z" fill="none" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+        Tebak <em>Daerah</em>
+      </a>
+      <nav class="alat-atas">
+        <button type="button" class="ikon-tombol" data-buka="cara" aria-label="Cara main">?</button>
+        <button type="button" class="ikon-tombol" data-buka="statistik" aria-label="Statistik">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17V9M8 17V4M13 17v-6M18 17V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" /></svg>
+        </button>
+      </nav>
+    </header>
+
+    <main class="utama">
+      <div class="mode" role="group" aria-label="Mode permainan">
+        <button type="button" aria-pressed="true" data-mode="harian">Harian <span data-nomor-harian></span></button>
+        <button type="button" aria-pressed="false" data-mode="bebas">Bebas</button>
+        <label class="pilih-pulau" hidden>
+          <span class="sr-only">Pulau</span>
+          <select id="pulau"></select>
+        </label>
+      </div>
+
+      <section class="papan" aria-labelledby="judul-soal">
+        <h1 id="judul-soal" class="sr-only">Daerah mana ini?</h1>
+        <div class="bingkai">
+          <span class="sudut tl" aria-hidden="true"></span><span class="sudut tr" aria-hidden="true"></span>
+          <span class="sudut bl" aria-hidden="true"></span><span class="sudut br" aria-hidden="true"></span>
+          <div class="bentuk-wadah" id="bentuk"><p class="memuat">Membentangkan peta…</p></div>
+        </div>
+        <p class="petunjuk" data-petunjuk hidden></p>
+
+        <ol class="tebakan" data-tebakan aria-label="Tebakanmu"></ol>
+
+        <form class="isian" id="isian" autocomplete="off">
+          <div class="combo">
+            <label for="tebak" class="sr-only">Nama kabupaten atau kota</label>
+            <input
+              id="tebak"
+              type="text"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="saran"
+              placeholder="Ketik kabupaten atau kota…"
+              spellcheck="false"
+            />
+            <ul id="saran" role="listbox" class="saran" hidden></ul>
+          </div>
+          <button type="submit" class="tombol utama-tombol">Tebak</button>
+        </form>
+        <div class="baris-bantu">
+          <button type="button" class="tombol polos" id="buka-petunjuk" disabled>Petunjuk provinsi <span data-sisa-petunjuk></span></button>
+          <button type="button" class="tombol polos" id="menyerah">Menyerah</button>
+        </div>
+        <p class="pesan" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="selesai" id="selesai" hidden aria-labelledby="judul-selesai">
+        <p class="label" data-hasil-label></p>
+        <h2 id="judul-selesai" data-jawaban></h2>
+        <p class="fakta" data-fakta></p>
+        <div class="peta-hasil" id="peta-hasil"></div>
+        <div class="aksi-selesai">
+          <button type="button" class="tombol" id="bagikan">Bagikan hasil</button>
+          <button type="button" class="tombol polos" id="lagi" hidden>Soal berikutnya</button>
+          <span class="hitung-mundur" data-hitung-mundur></span>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="dialog-cara" class="dialog" aria-labelledby="judul-cara">
+      <form method="dialog"><button class="tutup" aria-label="Tutup">×</button></form>
+      <h2 id="judul-cara">Cara main</h2>
+      <p>Tebak kabupaten atau kota dari bentuk wilayahnya. Ada enam kesempatan.</p>
+      <ul>
+        <li>Setiap tebakan yang salah memberi tahu <strong>jaraknya</strong> ke jawaban, <strong>arahnya</strong>, dan seberapa <strong>dekat</strong> (100% berarti tepat).</li>
+        <li>Tanda <span class="tanda-prov">provinsi sama</span> muncul kalau tebakanmu sudah di provinsi yang benar.</li>
+        <li>Setelah tiga tebakan, kamu boleh membuka <strong>petunjuk provinsi</strong>.</li>
+        <li>Batang skala di bawah bentuk menunjukkan ukurannya; utara selalu di atas.</li>
+      </ul>
+      <p><strong>Harian</strong>: satu soal sama untuk semua orang, berganti pukul 00.00 WIB. <strong>Bebas</strong>: soal acak sepuasnya, bisa dibatasi per pulau.</p>
+      <p class="kecil">
+        Batas wilayah: geoBoundaries (BPS, WFP, OCHA ROAP), CC BY 3.0 IGO, disederhanakan. Jarak dihitung antar titik tengah
+        wilayah. Upah minimum 2026 dari proyek <a href="https://umr.raffstw.my.id">UMR</a>.
+      </p>
+    </dialog>
+
+    <dialog id="dialog-statistik" class="dialog" aria-labelledby="judul-statistik">
+      <form method="dialog"><button class="tutup" aria-label="Tutup">×</button></form>
+      <h2 id="judul-statistik">Statistik harian</h2>
+      <dl class="angka-statistik" data-statistik></dl>
+      <h3 class="label">Sebaran tebakan</h3>
+      <ol class="sebaran" data-sebaran></ol>
+    </dialog>
+
+    <footer class="kaki">
+      <p>
+        Dibuat oleh Rafi Fernandito · <a href="https://github.com/Reverseflash45/tebak-daerah">kode sumber</a> · batas wilayah
+        geoBoundaries (BPS, WFP, OCHA ROAP), CC BY 3.0 IGO
+      </p>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
