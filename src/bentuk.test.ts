@@ -19,5 +19,5 @@ describe("berkas bentuk per daerah", () => {
       if (Math.abs(luas - d.luas) / d.luas > 0.12) meleset.push(`${d.id}: ${Math.round(luas)} vs ${d.luas}`);
     }
     expect(meleset).toEqual([]);
-  });
+  }, 30_000); // membaca 514 berkas; bisa lewat 5 detik di mesin yang sibuk
 });
