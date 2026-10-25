@@ -144,9 +144,9 @@ describe("bagikan", () => {
   it("teks hasil", () => {
     const jawab = d("kota-kediri");
     const hasil = [nilai(d("kota-yogyakarta"), jawab), nilai(jawab, jawab)];
-    const t = teksBagikan("Tebak Daerah #1", hasil, true, "tebak-daerah.vercel.app", false);
+    const t = teksBagikan("Tebak Daerah #1", hasil, true, "tebak.raffstw.my.id", false);
     expect(t.split("\n")[0]).toBe("Tebak Daerah #1 2/6");
     expect(t).toContain("🎯");
-    expect(t.endsWith("tebak-daerah.vercel.app")).toBe(true);
+    expect(t.endsWith("tebak.raffstw.my.id")).toBe(true);
   });
 });

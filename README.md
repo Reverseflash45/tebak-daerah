@@ -2,7 +2,7 @@
 
 ![Tebak Daerah: daerah mana ini?](public/og.png)
 
-**[Main sekarang](https://tebak-daerah.vercel.app)**
+**[Main sekarang](https://tebak.raffstw.my.id)**
 
 Tebak satu dari 514 kabupaten dan kota di Indonesia dari bentuk wilayahnya. Ada enam
 kesempatan; setiap tebakan yang salah memberi tahu jarak, arah, dan seberapa dekat
