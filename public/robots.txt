@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tebak.raffstw.my.id/sitemap.xml
