@@ -27,7 +27,7 @@
   --darat-muda: #2b3fb8;
   --tebak: #8f9bf0;
   --jawab: var(--kuning);
-  --benar: #0f9d58;
+  --benar: #0b7a43; /* kontras 5,4:1 dengan teks putih */
   --dekat: #e09a00;
   --jauh: #a3abd9;
 
@@ -471,6 +471,7 @@ select {
 }
 .baris-bantu {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px;
   margin-top: 12px;
