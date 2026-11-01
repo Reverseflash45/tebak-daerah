@@ -1,5 +1,6 @@
 import type { Feature, FeatureCollection, Geometry, MultiLineString } from "geojson";
 import { geoBounds, geoDistance, geoGraticule, geoMercator, geoPath } from "d3-geo";
+import { jalurDatar, titikSudut } from "./datar";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import type { Daerah, HasilTebakan } from "./permainan";
@@ -112,9 +113,9 @@ export function gambarHasil(wadah: HTMLElement, peta: Peta, jawab: Daerah, hasil
       [8, 8],
       [w - 8, h - 8],
     ],
-    peta.semua,
+    titikSudut(peta.semua),
   );
-  const jalur = geoPath(proyeksi);
+  const jalur = jalurDatar(proyeksi);
   const fJawab = peta.fitur.get(jawab.id)!;
   const titikJawab = proyeksi(jawab.titik as [number, number])!;
   const salah = hasil.filter((x) => !x.benar);
