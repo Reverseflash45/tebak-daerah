@@ -19,6 +19,8 @@
     <link rel="canonical" href="https://tebak.raffstw.my.id/" />
     <meta name="theme-color" content="#1a2a9c" />
     <link rel="icon" href="/ikon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/node_modules/@fontsource/lilita-one/files/lilita-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/node_modules/@fontsource/rubik/files/rubik-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <header class="kepala">
@@ -57,7 +59,7 @@
         </div>
         <p class="petunjuk" data-petunjuk hidden></p>
 
-        <ol class="tebakan" data-tebakan aria-label="Tebakanmu"></ol>
+        <ol class="tebakan" data-tebakan aria-label="Tebakanmu"><li class="kosong" aria-hidden="true"></li><li class="kosong" aria-hidden="true"></li><li class="kosong" aria-hidden="true"></li><li class="kosong" aria-hidden="true"></li><li class="kosong" aria-hidden="true"></li><li class="kosong" aria-hidden="true"></li></ol>
 
         <form class="isian" id="isian" autocomplete="off">
           <div class="combo">

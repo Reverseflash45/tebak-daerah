@@ -1,5 +1,5 @@
 import type { Feature, FeatureCollection, Geometry, MultiLineString } from "geojson";
-import { geoDistance, geoGraticule, geoMercator, geoPath } from "d3-geo";
+import { geoBounds, geoDistance, geoGraticule, geoMercator, geoPath } from "d3-geo";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import type { Daerah, HasilTebakan } from "./permainan";
@@ -60,7 +60,15 @@ export function gambarBentuk(wadah: HTMLElement, f: Feature<Geometry, Prop>): vo
     f,
   );
   const jalur = geoPath(proyeksi);
-  const garisLintang = geoPath(proyeksi)(geoGraticule().step([0.25, 0.25])()) ?? "";
+  // Kisi 0,25° hanya di sekitar daerahnya: kisi seluruh bumi berisi ribuan garis dan membuat halaman macet.
+  const [[bx0, by0], [bx1, by1]] = geoBounds(f);
+  const kisi = geoGraticule()
+    .extent([
+      [Math.floor(bx0) - 1, Math.floor(by0) - 1],
+      [Math.ceil(bx1) + 1, Math.ceil(by1) + 1],
+    ])
+    .step([0.25, 0.25]);
+  const garisLintang = geoPath(proyeksi)(kisi()) ?? "";
 
   // km per piksel di tengah bingkai: jarak bola antara dua titik berjarak 100 px.
   const [cx, cy] = [w / 2, h / 2];

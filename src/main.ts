@@ -147,6 +147,7 @@ function gambarSelesai() {
     `Upah minimum 2026 di sini Rp${j.upah.toLocaleString("id-ID")} (${j.jenisUpah}). ` +
     `<a href="https://umr.raffstw.my.id" target="_blank" rel="noopener">Cukup nggak untuk hidup di sana? →</a>`;
   if (peta) gambarHasil($("#peta-hasil"), peta, j, hasil());
+  else siapkanPeta();
   $("#lagi").hidden = mode !== "bebas";
   perbaruiHitungMundur();
 }
@@ -374,11 +375,20 @@ if (!baca("td:sudah-lihat-cara", false)) {
   tulis("td:sudah-lihat-cara", true);
   $<HTMLDialogElement>("#dialog-cara").showModal();
 }
-muatPeta()
-  .then((p) => {
-    peta = p;
-    if (selesai()) gambarSelesai();
-  })
-  .catch(() => {
-    /* peta hasil saja yang tidak tampil; permainan tetap jalan */
-  });
+// Peta seluruh Indonesia hanya dipakai di layar hasil. Dimuat saat dibutuhkan, atau saat peramban
+// menganggur supaya pembukaan halaman tidak tertahan mengurai ratusan kilobita topologi.
+let memuatPeta = false;
+function siapkanPeta() {
+  if (peta || memuatPeta) return;
+  memuatPeta = true;
+  muatPeta()
+    .then((p) => {
+      peta = p;
+      if (selesai()) gambarSelesai();
+    })
+    .catch(() => {
+      memuatPeta = false; /* peta hasil saja yang tidak tampil; permainan tetap jalan */
+    });
+}
+if ("requestIdleCallback" in window) requestIdleCallback(siapkanPeta, { timeout: 8000 });
+else setTimeout(siapkanPeta, 3000);
